@@ -21,7 +21,7 @@ public class KafkaConsumerConfiguration {
 		Map<String, Object>props=new HashMap<>();
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
 		props.put(ConsumerConfig.GROUP_ID_CONFIG,"devhoss-group");
-		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,	IntegerDeserializer.class);
+		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,	StringDeserializer.class);
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
 
 		//props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,	true);
@@ -31,14 +31,13 @@ public class KafkaConsumerConfiguration {
 	}
 
 	@Bean
-	public ConsumerFactory<Integer, String> consumerFactory() {
+	public ConsumerFactory<String, String> consumerFactory() {
 		return new 	DefaultKafkaConsumerFactory<>(consumerProps());
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<Integer, String> kafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<Integer, String>
-		factory = new ConcurrentKafkaListenerContainerFactory<>();
+	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory());
 		factory.setBatchListener(true);
 		factory.setConcurrency(5);// 3 hilos

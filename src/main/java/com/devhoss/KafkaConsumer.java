@@ -12,12 +12,12 @@ public class KafkaConsumer {
 
 	public static final org.slf4j.Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
-	@KafkaListener(topics ="testtopicreplication3", groupId ="devhoss-group")
+	@KafkaListener(topics ="testtopicreplication3", groupId ="devhoss-group", containerFactory ="kafkaListenerContainerFactory")
 	public void listen(List<ConsumerRecord<Integer, String>>messages) {
 		
 		System.out.println("Inicio Batch...");
 		for (ConsumerRecord<Integer, String> message : messages) {
-			log.info("Offset {} Partition= {} Key = {} Value = {}", message.offset(),message.partition(), message.key(),message.value());
+			log.info("Offset {} Partition= {} Key = {} Value = {} ", message.offset(),message.partition(), message.key(),message.value());
 		}
 		System.out.println("Completado bash...");
 		

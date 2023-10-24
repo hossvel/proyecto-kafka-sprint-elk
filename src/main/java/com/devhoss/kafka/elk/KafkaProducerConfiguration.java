@@ -12,6 +12,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Component
 public class KafkaProducerConfiguration {
 
@@ -20,7 +22,7 @@ public class KafkaProducerConfiguration {
 	public Map<String, Object> producerProps() { 
 		Map<String, Object> props=new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,	"localhost:9092");
-		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,IntegerSerializer.class);
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,	StringSerializer.class);
 
 		//props.put(ProducerConfig.RETRIES_CONFIG, 0);
@@ -34,12 +36,16 @@ public class KafkaProducerConfiguration {
 
 
 	@Bean
-	public KafkaTemplate<Integer, String> createTemplate() {
+	public KafkaTemplate<String, String> createTemplate() {
 		Map<String, Object>senderProps= producerProps();
-		ProducerFactory<Integer, String> pf= new DefaultKafkaProducerFactory<Integer, String>(senderProps);
-		KafkaTemplate<Integer, String> template=new KafkaTemplate<>(pf);
+		ProducerFactory<String, String> pf= new DefaultKafkaProducerFactory<String, String>(senderProps);
+		KafkaTemplate<String, String> template=new KafkaTemplate<>(pf);
 		return template;
 	}
 
-
+	@Bean
+    public ObjectMapper objectMapper() {
+        com.fasterxml.jackson.databind.ObjectMapper responseMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        return responseMapper;
+    }
 }
