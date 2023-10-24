@@ -12,11 +12,7 @@ public class KafkaConsumer {
 
 	public static final org.slf4j.Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
-	//@KafkaListener(topics ="testtopicreplication3", groupId ="devhoss-group")
-
-    // bloques de  10 registros dentro de los 4 segundos
-	@KafkaListener(topics ="testtopicreplication3",containerFactory ="kafkaListenerContainerFactory",groupId ="devhoss-group", properties =
-		{"max.poll.interval.ms:4000","max.poll.records:10"})
+	@KafkaListener(topics ="testtopicreplication3", groupId ="devhoss-group")
 	public void listen(List<ConsumerRecord<Integer, String>>messages) {
 		
 		System.out.println("Inicio Batch...");

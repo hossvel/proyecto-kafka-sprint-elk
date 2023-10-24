@@ -1,17 +1,17 @@
 package com.devhoss;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
+
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaProducer implements CommandLineRunner {
+@EnableScheduling
+public class KafkaProducer  {
 
 	public static final org.slf4j.Logger log = LoggerFactory.getLogger(KafkaProducer.class);
 
@@ -19,11 +19,13 @@ public class KafkaProducer implements CommandLineRunner {
 	@Autowired
 	private KafkaTemplate<Integer, String> kafkaTemplate;
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("ENVIANDOO...");
-		for (int i = 0;i < 100;i++) {
-			kafkaTemplate.send("testtopicreplication3",Integer.valueOf(i),"Mensaje BATCH - " + (i + 1));
+	@Scheduled(fixedDelay = 2000, initialDelay = 100)
+	public void SendMessages() {
+		log.info("Sending messages ");
+		for(int i= 0;i< 200;i++) {
+			kafkaTemplate.send("testtopicreplication3",Integer.valueOf(i),"Mensaje REPETIDO CADA 2 seg - " + (i + 1));
 		}
 	}
+
+
 }
