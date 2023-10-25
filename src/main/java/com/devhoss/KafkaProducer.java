@@ -26,12 +26,12 @@ public class KafkaProducer  {
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
-	@Scheduled(fixedDelay = 5000, initialDelay = 100)
+	@Scheduled(fixedRate = 1500)
 	public void SendMessages() throws JsonProcessingException {
 		log.info("Sending messages ");
 		Faker faker = new Faker();
 		
-		for(int i= 0;i< 200;i++) {
+		for(int i= 0;i< 1000;i++) {
 			Transaccion transaccion = new Transaccion();
 			transaccion.setUsername(faker.name().username());
 			transaccion.setApellido(faker.name().lastName());
